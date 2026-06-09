@@ -1,25 +1,38 @@
 [
   {
-    "id": "s1",
+    "id": "529cc7ee-d492-4733-bb10-15a3ba1d9218",
     "name": "Mathematics",
     "lecturers": [
-      { "userId": "u_olivia_123", "name": "Dr. Olivia" }
+      {
+        "userId": "u_olivia_123",
+        "name": "Dr. Olivia"
+      }
     ],
     "room": "West camp, Room 312",
     "color": "yellow",
     "description": "Explore limits, differentiation, integration, and applications of calculus in scientific modeling.",
     "schedules": [
-      { "day": "Monday", "startTime": "07:00", "endTime": "08:40" },
-      { "day": "Friday", "startTime": "10:00", "endTime": "11:40" }
+      {
+        "day": "Monday",
+        "startTime": "07:00",
+        "endTime": "08:40",
+        "room": "West camp, Room 312"
+      },
+      {
+        "day": "Friday",
+        "startTime": "10:00",
+        "endTime": "11:40",
+        "room": "West camp, Room 312"
+      }
     ],
-    "createdBy": "u_turing_yeager_2026",
+    "createdBy": "c9c15c47-469a-412f-8431-21568eaf35d4",
     "deletedBy": null,
     "createdAt": "2026-06-08T09:00:00.000Z",
     "updatedAt": "2026-06-08T09:30:00.000Z",
     "deletedAt": null,
     "modules": [
       {
-        "id": "m1_1",
+        "id": "ddab56a8-3ff5-4fb3-8069-d786e9277b32",
         "title": "Module 1: Limits & Continuity",
         "desc": "Foundational calculus concepts describing function behaviors near specific values.",
         "date": "2026-05-11T08:00:00.000Z",
@@ -28,7 +41,7 @@
         "deletedAt": null,
         "lessons": [
           {
-            "id": "l1_1_1",
+            "id": "79d26ca4-7928-4c7c-9914-e7f7a27a699d",
             "title": "Lesson 1: Intuitive Definition of Limits",
             "desc": "Investigating limit behaviors graphically and numerically as values approach a point.",
             "openDate": "2026-06-01T08:00:00.000Z",
@@ -39,7 +52,7 @@
             "deletedAt": null
           },
           {
-            "id": "l1_1_2",
+            "id": "7ef1c8e6-e364-4edc-b75f-3915a3eb7b5d",
             "title": "Lesson 2: Epsilon-Delta Definition of Limits",
             "desc": "Proving limits rigorously using mathematical continuity bounds.",
             "openDate": "2026-06-01T08:00:00.000Z",
@@ -52,7 +65,7 @@
         ]
       },
       {
-        "id": "m1_2",
+        "id": "70b26746-79f7-485c-a5a2-bf7e8c197ae8",
         "title": "Module 2: Derivatives & Applications",
         "desc": "Rate of change calculations, graphing slopes, and optimization problems.",
         "date": "2026-05-18T08:00:00.000Z",
@@ -61,7 +74,7 @@
         "deletedAt": null,
         "lessons": [
           {
-            "id": "l1_2_1",
+            "id": "d49827b3-d7dd-464f-bf48-0e06223ee4e1",
             "title": "Lesson 1: Power Rule & Chain Rule",
             "desc": "Practicing algebraic rules for quick derivative computations.",
             "openDate": "2026-06-02T08:00:00.000Z",
@@ -72,7 +85,7 @@
             "deletedAt": null
           },
           {
-            "id": "l1_2_2",
+            "id": "dfa25678-618e-452c-b61d-4e9b6b00c0d4",
             "title": "Lesson 2: Optimization & Extrema",
             "desc": "Using critical points to solve real-world efficiency and volume maximization scenarios.",
             "openDate": "2026-06-02T08:00:00.000Z",
@@ -87,27 +100,43 @@
     ]
   },
   {
-    "id": "s2",
+    "id": "4d589759-be0b-45e6-bcf4-5dd35037e8cf",
     "name": "Physics",
     "lecturers": [
-      { "userId": "u_feynman_123", "name": "Prof. Richard Feynman" },
-      { "userId": "u_olivia_123", "name": "Dr. Olivia" }
+      {
+        "userId": "u_feynman_123",
+        "name": "Prof. Richard Feynman"
+      },
+      {
+        "userId": "u_olivia_123",
+        "name": "Dr. Olivia"
+      }
     ],
     "room": "East camp, Room 200",
     "color": "blue",
     "description": "Study Newtonian mechanics, optics, thermodynamics, and quantum mechanics fundamentals.",
     "schedules": [
-      { "day": "Monday", "startTime": "09:00", "endTime": "10:40" },
-      { "day": "Friday", "startTime": "12:00", "endTime": "13:40" }
+      {
+        "day": "Monday",
+        "startTime": "09:00",
+        "endTime": "10:40",
+        "room": "East camp, Room 200"
+      },
+      {
+        "day": "Friday",
+        "startTime": "12:00",
+        "endTime": "13:40",
+        "room": "East camp, Room 200"
+      }
     ],
-    "createdBy": "u_turing_yeager_2026",
+    "createdBy": "c9c15c47-469a-412f-8431-21568eaf35d4",
     "deletedBy": null,
     "createdAt": "2026-06-08T09:15:00.000Z",
     "updatedAt": "2026-06-08T09:15:00.000Z",
     "deletedAt": null,
     "modules": [
       {
-        "id": "m2_1",
+        "id": "16ef858f-c17d-448f-9d83-c57964d290ef",
         "title": "Module 1: Classical Mechanics",
         "desc": "Analysing motion, forces, momentum, and conservation laws in macroscopic systems.",
         "date": "2026-05-12T08:00:00.000Z",
@@ -116,7 +145,7 @@
         "deletedAt": null,
         "lessons": [
           {
-            "id": "l2_1_1",
+            "id": "21007069-ec60-4b27-ba1d-6dcbfd3d17e5",
             "title": "Lesson 1: Newton's Laws of Motion",
             "desc": "Forces, inertia, friction coefficient equations, and action-reaction pairings.",
             "openDate": "2026-06-01T08:00:00.000Z",
@@ -127,7 +156,7 @@
             "deletedAt": null
           },
           {
-            "id": "l2_1_2",
+            "id": "5d1cd3db-816a-43e4-89ef-98b7049df2a1",
             "title": "Lesson 2: Work-Energy Theorem",
             "desc": "Calculating kinetic vs. potential energy conservation in gravitational fields.",
             "openDate": "2026-06-01T08:00:00.000Z",
@@ -142,27 +171,45 @@
     ]
   },
   {
-    "id": "s3",
+    "id": "924957cb-942a-4cf5-b7de-716c3f81f052",
     "name": "Computer Science",
     "lecturers": [
-      { "userId": "u_turing_123", "name": "Dr. Alan Turing" }
+      {
+        "userId": "u_turing_123",
+        "name": "Dr. Alan Turing"
+      }
     ],
     "room": "West camp, Lab 402",
     "color": "image-text",
     "description": "Delve into algorithms, computational theory, machine learning, and software architectures.",
     "schedules": [
-      { "day": "Tuesday", "startTime": "07:00", "endTime": "09:30" },
-      { "day": "Friday", "startTime": "07:00", "endTime": "09:30" },
-      { "day": "Saturday", "startTime": "08:00", "endTime": "09:40" }
+      {
+        "day": "Tuesday",
+        "startTime": "07:00",
+        "endTime": "09:30",
+        "room": "West camp, Lab 402"
+      },
+      {
+        "day": "Friday",
+        "startTime": "07:00",
+        "endTime": "09:30",
+        "room": "West camp, Lab 402"
+      },
+      {
+        "day": "Saturday",
+        "startTime": "08:00",
+        "endTime": "09:40",
+        "room": "West camp, Lab 402"
+      }
     ],
-    "createdBy": "u_turing_yeager_2026",
+    "createdBy": "c9c15c47-469a-412f-8431-21568eaf35d4",
     "deletedBy": null,
     "createdAt": "2026-06-08T09:20:00.000Z",
     "updatedAt": "2026-06-08T09:20:00.000Z",
     "deletedAt": null,
     "modules": [
       {
-        "id": "m3_1",
+        "id": "49ff0371-21c5-414a-96b9-e1d661337bbc",
         "title": "Module 1: Advanced Data Structures",
         "desc": "Exploring arrays, linked nodes, trees, and hash tables for optimized storage.",
         "date": "2026-05-14T08:00:00.000Z",
@@ -171,7 +218,7 @@
         "deletedAt": null,
         "lessons": [
           {
-            "id": "l3_1_1",
+            "id": "d90a30e6-8371-4d39-890b-49b81a770206",
             "title": "Lesson 1: Trees & Balanced BSTs",
             "desc": "Implementing AVL and Red-Black trees for O(log N) lookup speeds.",
             "openDate": "2026-06-03T08:00:00.000Z",
@@ -182,7 +229,7 @@
             "deletedAt": null
           },
           {
-            "id": "l3_1_2",
+            "id": "716b9091-0a07-4d4c-8438-9e088f269cad",
             "title": "Lesson 2: Graph Traversals & Trees",
             "desc": "Writing Depth-First Search (DFS) and Breadth-First Search (BFS) graph pathing.",
             "openDate": "2026-06-03T08:00:00.000Z",
@@ -197,27 +244,43 @@
     ]
   },
   {
-    "id": "s4",
+    "id": "8a4d7107-5706-4c0a-8dcc-971655c3666e",
     "name": "Chemistry",
     "lecturers": [
-      { "userId": "u_curie_123", "name": "Dr. Marie Curie" },
-      { "userId": "u_turing_123", "name": "Dr. Alan Turing" }
+      {
+        "userId": "u_curie_123",
+        "name": "Dr. Marie Curie"
+      },
+      {
+        "userId": "u_turing_123",
+        "name": "Dr. Alan Turing"
+      }
     ],
     "room": "West camp, Lab 304",
     "color": "cream",
     "description": "Discover reaction thermodynamics, organic synthesis paths, and molecular kinetics.",
     "schedules": [
-      { "day": "Monday", "startTime": "11:00", "endTime": "12:40" },
-      { "day": "Wednesday", "startTime": "10:00", "endTime": "11:40" }
+      {
+        "day": "Monday",
+        "startTime": "11:00",
+        "endTime": "12:40",
+        "room": "West camp, Lab 304"
+      },
+      {
+        "day": "Wednesday",
+        "startTime": "10:00",
+        "endTime": "11:40",
+        "room": "West camp, Lab 304"
+      }
     ],
-    "createdBy": "u_turing_yeager_2026",
+    "createdBy": "c9c15c47-469a-412f-8431-21568eaf35d4",
     "deletedBy": null,
     "createdAt": "2026-06-08T09:25:00.000Z",
     "updatedAt": "2026-06-08T09:25:00.000Z",
     "deletedAt": null,
     "modules": [
       {
-        "id": "m4_1",
+        "id": "cb7b0ea6-b12d-4edf-bca1-05815ac8b45c",
         "title": "Module 1: Organic Chemistry",
         "desc": "Hydrocarbons, functional group reactions, and molecular orbital geometry structures.",
         "date": "2026-05-15T08:00:00.000Z",
@@ -226,7 +289,7 @@
         "deletedAt": null,
         "lessons": [
           {
-            "id": "l4_1_1",
+            "id": "8a61e6f0-662e-4de9-9691-71d9b6fb6d04",
             "title": "Lesson 1: Alkanes & Stereochemistry",
             "desc": "Naming branched alkanes and analyzing chiral carbon structures.",
             "openDate": "2026-06-04T08:00:00.000Z",
@@ -241,25 +304,33 @@
     ]
   },
   {
-    "id": "s5",
+    "id": "15f4b76d-c4b7-4561-9619-7d54cfb5951c",
     "name": "English Literature",
     "lecturers": [
-      { "userId": "u_shakespeare_123", "name": "Prof. William Shakespeare" }
+      {
+        "userId": "u_shakespeare_123",
+        "name": "Prof. William Shakespeare"
+      }
     ],
     "room": "West camp, Room 102",
     "color": "cream",
     "description": "Analyze creative prose writing styles, structures, drama, and historical poetry blocks.",
     "schedules": [
-      { "day": "Wednesday", "startTime": "08:00", "endTime": "09:40" }
+      {
+        "day": "Wednesday",
+        "startTime": "08:00",
+        "endTime": "09:40",
+        "room": "West camp, Room 102"
+      }
     ],
-    "createdBy": "u_turing_yeager_2026",
+    "createdBy": "c9c15c47-469a-412f-8431-21568eaf35d4",
     "deletedBy": null,
     "createdAt": "2026-06-08T09:30:00.000Z",
     "updatedAt": "2026-06-08T09:30:00.000Z",
     "deletedAt": null,
     "modules": [
       {
-        "id": "m5_1",
+        "id": "f793c3b1-9927-4645-a059-7b41c830f7da",
         "title": "Module 1: Shakespearean Tragedy",
         "desc": "Exploring the narrative arcs, themes of power, and soliloquies in classic plays.",
         "date": "2026-05-19T08:00:00.000Z",
@@ -268,7 +339,7 @@
         "deletedAt": null,
         "lessons": [
           {
-            "id": "l5_1_1",
+            "id": "9406f77b-030f-487b-982d-ce680e4b9b54",
             "title": "Lesson 1: Analysis of Hamlet",
             "desc": "Unpacking character motivations, moral dilemmas, and structural pacing in Hamlet.",
             "openDate": "2026-06-05T08:00:00.000Z",
@@ -283,25 +354,33 @@
     ]
   },
   {
-    "id": "s6",
+    "id": "75fbda66-8d03-4bb3-8f0c-ec454178eb44",
     "name": "Microbiology",
     "lecturers": [
-      { "userId": "u_pasteur_123", "name": "Dr. Louis Pasteur" }
+      {
+        "userId": "u_pasteur_123",
+        "name": "Dr. Louis Pasteur"
+      }
     ],
     "room": "West camp, Room 305",
     "color": "blue",
     "description": "Examine cell genetics, virus cycles, pathogens, and cell cultivation lab protocols.",
     "schedules": [
-      { "day": "Saturday", "startTime": "10:00", "endTime": "11:40" }
+      {
+        "day": "Saturday",
+        "startTime": "10:00",
+        "endTime": "11:40",
+        "room": "West camp, Room 305"
+      }
     ],
-    "createdBy": "u_turing_yeager_2026",
+    "createdBy": "c9c15c47-469a-412f-8431-21568eaf35d4",
     "deletedBy": null,
     "createdAt": "2026-06-08T09:35:00.000Z",
     "updatedAt": "2026-06-08T09:35:00.000Z",
     "deletedAt": null,
     "modules": [
       {
-        "id": "m6_1",
+        "id": "0939d155-2b14-4a28-b470-9bbd20b18323",
         "title": "Module 1: Virology & Bacterial Cycles",
         "desc": "Differentiating lytic vs. lysogenic virus paths in microscopic bacterial hosts.",
         "date": "2026-05-20T08:00:00.000Z",
@@ -310,7 +389,7 @@
         "deletedAt": null,
         "lessons": [
           {
-            "id": "l6_1_1",
+            "id": "c60bf18b-f38b-4616-b6ae-9b8bafc143fa",
             "title": "Lesson 1: Lytic and Lysogenic Replication",
             "desc": "Examining phage cycles and integration methods into host genomes.",
             "openDate": "2026-06-06T08:00:00.000Z",
@@ -325,25 +404,33 @@
     ]
   },
   {
-    "id": "s7",
+    "id": "de521a33-acff-447a-b10b-d5ad36187fb9",
     "name": "History",
     "lecturers": [
-      { "userId": "u_herodotus_123", "name": "Prof. Herodotus" }
+      {
+        "userId": "u_herodotus_123",
+        "name": "Prof. Herodotus"
+      }
     ],
     "room": "Online Classroom",
     "color": "cream",
     "description": "Study ancient civilizations, world wars, and the political evolutions of modern human societies.",
     "schedules": [
-      { "day": "Thursday", "startTime": "07:00", "endTime": "08:40" }
+      {
+        "day": "Thursday",
+        "startTime": "07:00",
+        "endTime": "08:40",
+        "room": "Online Classroom"
+      }
     ],
-    "createdBy": "u_turing_yeager_2026",
+    "createdBy": "c9c15c47-469a-412f-8431-21568eaf35d4",
     "deletedBy": null,
     "createdAt": "2026-06-08T09:40:00.000Z",
     "updatedAt": "2026-06-08T09:40:00.000Z",
     "deletedAt": null,
     "modules": [
       {
-        "id": "m7_1",
+        "id": "885fec7f-bd87-4cf7-826e-0e76e7b32030",
         "title": "Module 1: Rise and Fall of Empires",
         "desc": "Analyzing common socio-economic factors in the collapse of ancient civilizations.",
         "date": "2026-05-14T08:00:00.000Z",
@@ -352,7 +439,7 @@
         "deletedAt": null,
         "lessons": [
           {
-            "id": "l7_1_1",
+            "id": "df0655c4-ba2d-4ebd-9dc6-0ce37faddc9b",
             "title": "Lesson 1: The Roman Empire",
             "desc": "Studying the administrative challenges and military overreaches of ancient Rome.",
             "openDate": "2026-06-07T08:00:00.000Z",
@@ -367,26 +454,37 @@
     ]
   },
   {
-    "id": "s8",
+    "id": "84798e0e-16ba-42a4-a793-6928dd9bdd00",
     "name": "Astrophysics",
     "lecturers": [
-      { "userId": "u_galileo_123", "name": "Prof. Galileo Galilei" },
-      { "userId": "u_feynman_123", "name": "Prof. Richard Feynman" }
+      {
+        "userId": "u_galileo_123",
+        "name": "Prof. Galileo Galilei"
+      },
+      {
+        "userId": "u_feynman_123",
+        "name": "Prof. Richard Feynman"
+      }
     ],
     "room": "West camp, Room 312",
     "color": "image-text",
     "description": "Explore stellar physics, cosmological evolution, black holes, and the physical laws governing the universe.",
     "schedules": [
-      { "day": "Thursday", "startTime": "09:00", "endTime": "10:40" }
+      {
+        "day": "Thursday",
+        "startTime": "09:00",
+        "endTime": "10:40",
+        "room": "West camp, Room 312"
+      }
     ],
-    "createdBy": "u_turing_yeager_2026",
+    "createdBy": "c9c15c47-469a-412f-8431-21568eaf35d4",
     "deletedBy": null,
     "createdAt": "2026-06-08T09:45:00.000Z",
     "updatedAt": "2026-06-08T09:45:00.000Z",
     "deletedAt": null,
     "modules": [
       {
-        "id": "m8_1",
+        "id": "ab230c3b-54e1-43b5-a77d-57cf4731c700",
         "title": "Module 1: Stellar Evolution",
         "desc": "Nucleosynthesis, fusion lifecycles, and the formation of cosmic objects.",
         "date": "2026-05-14T08:00:00.000Z",
@@ -395,7 +493,7 @@
         "deletedAt": null,
         "lessons": [
           {
-            "id": "l8_1_1",
+            "id": "20b951b7-2653-432b-a90a-9173819dee97",
             "title": "Lesson 1: Main Sequence Stars",
             "desc": "How hydrogen fusion maintains hydrostatic equilibrium in stellar cores.",
             "openDate": "2026-06-08T08:00:00.000Z",

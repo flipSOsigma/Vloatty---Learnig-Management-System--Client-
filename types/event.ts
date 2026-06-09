@@ -7,7 +7,7 @@ export interface LmsEvent {
   timeStart: string; // "07:00"
   timeEnd: string; // "07:30"
   dayIndex: number; // 0 for Monday, 1 for Tuesday, etc. (0 to 6)
-  color: "cream" | "yellow" | "blue" | "image-text";
+  color: string;
   tag?: {
     text: string;
     type: "pink" | "blue";

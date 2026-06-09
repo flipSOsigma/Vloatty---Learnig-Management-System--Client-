@@ -10,6 +10,7 @@ import {
   FileText,
   LogOut,
   ChevronRight,
+  Plus,
 } from "lucide-react";
 import { useLms } from "../../context/LmsContext";
 import Link from "next/link";
@@ -39,7 +40,7 @@ export default function Sidebar() {
   const generalItems = [
     { name: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
     { name: "Schedule", icon: Calendar, href: "/dashboard/schedule" },
-    { name: "Patients", icon: Users, href: "#" },
+    { name: "Create Subject", icon: Plus, href: "/dashboard/subject/create" },
     { name: "Statistics & reports", icon: BarChart3, href: "#" },
     { name: "Education", icon: BookOpen, href: "#" },
     { name: "My articles", icon: FileText, href: "#" },

@@ -81,3 +81,12 @@ h1, h2, h3, h4, h5, h6 {
   animation: click-bubble-expand 0.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
 }
 
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+

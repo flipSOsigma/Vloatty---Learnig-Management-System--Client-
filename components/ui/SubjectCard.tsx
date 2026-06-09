@@ -49,6 +49,24 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
     };
   }
 
+  const isHexColor = subject.color && subject.color.startsWith("#");
+
+  const hexToRgba = (hex: string | undefined, opacity: number) => {
+    if (!hex) return "";
+    try {
+      let c = hex.substring(1);
+      if (c.length === 3) {
+        c = c[0] + c[0] + c[1] + c[1] + c[2] + c[2];
+      }
+      const r = parseInt(c.substring(0, 2), 16);
+      const g = parseInt(c.substring(2, 4), 16);
+      const b = parseInt(c.substring(4, 6), 16);
+      return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    } catch (e) {
+      return hex;
+    }
+  };
+
   const handleCardClick = () => {
     router.push(`/dashboard/subject/${subject.id}`);
   };
@@ -78,7 +96,18 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
       <div
         onClick={handleCardClick}
         onContextMenu={handleContextMenu}
-        className={`p-6 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:scale-[1.008] cursor-pointer select-none min-h-[175px] text-left shadow-[0_4px_16px_rgba(0,0,0,0.008)] ${colorTheme.bg} ${colorTheme.border} ${colorTheme.shadow}`}
+        className={`p-6 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:scale-[1.008] cursor-pointer select-none min-h-[175px] text-left shadow-[0_4px_16px_rgba(0,0,0,0.008)] ${
+          isHexColor ? "" : `${colorTheme.bg} ${colorTheme.border} ${colorTheme.shadow}`
+        }`}
+        style={
+          isHexColor
+            ? {
+                backgroundColor: "#ffffff",
+                border: `1px solid ${hexToRgba(subject.color, 0.15)}`,
+                boxShadow: `0 10px 30px ${hexToRgba(subject.color, 0.05)}`,
+              }
+            : undefined
+        }
       >
         <div className="flex flex-col gap-4.5 h-full w-full">
           {/* Card Header: Initial Badge + Name + Actions */}
@@ -86,7 +115,10 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
             <div className="flex items-center gap-3 min-w-0">
               {/* Subject initial circle */}
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-[13.5px] flex-shrink-0 shadow-[0_1px_3px_rgba(0,0,0,0.02)] ${colorTheme.logoBg}`}
+                className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-[13.5px] flex-shrink-0 shadow-[0_1px_3px_rgba(0,0,0,0.02)] ${
+                  isHexColor ? "" : colorTheme.logoBg
+                }`}
+                style={isHexColor ? { backgroundColor: subject.color, color: "#ffffff" } : undefined}
               >
                 {getSubjectInitial()}
               </div>
@@ -123,7 +155,18 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
                 {subject.schedules.map((sch, i) => (
                   <span
                     key={i}
-                    className={`inline-flex items-center text-[9px] font-medium px-2.5 py-1 rounded-full border border-transparent flex-shrink-0 ${colorTheme.tagBg}`}
+                    className={`inline-flex items-center text-[9px] font-medium px-2.5 py-1 rounded-full border border-transparent flex-shrink-0 ${
+                      isHexColor ? "" : colorTheme.tagBg
+                    }`}
+                    style={
+                      isHexColor
+                        ? {
+                            backgroundColor: hexToRgba(subject.color, 0.08),
+                            color: subject.color,
+                            border: `1px solid ${hexToRgba(subject.color, 0.1)}`,
+                          }
+                        : undefined
+                    }
                   >
                     {sch.day.substring(0, 3)} {sch.startTime} - {sch.endTime}
                   </span>

@@ -3,8 +3,19 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { LmsEvent, CalendarViewType, LmsState, Subject } from "../types/lms";
 
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  premiumStatus: "free" | "premium" | "professional";
+  institution: string;
+  avatar: string;
+}
+
 interface LmsContextType extends LmsState {
   subjects: Subject[];
+  currentUser: UserProfile | null;
+  setCurrentUser: React.Dispatch<React.SetStateAction<UserProfile | null>>;
   setSelectedView: (view: CalendarViewType) => void;
   setActiveDayIndex: (index: number) => void;
   setSearchQuery: (query: string) => void;
@@ -17,12 +28,14 @@ interface LmsContextType extends LmsState {
   setSelectedEvent: (event: LmsEvent | null) => void;
   addSubject: (subject: Omit<Subject, "id" | "createdAt" | "updatedAt" | "deletedAt">) => void;
   deleteSubject: (id: string) => void;
+  updateSubject: (subject: Subject) => void;
 }
 
 const LmsContext = createContext<LmsContextType | undefined>(undefined);
 
 export const LmsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [events, setEvents] = useState<LmsEvent[]>([]);
   const [selectedView, setSelectedView] = useState<CalendarViewType>("week");
   const [activeDayIndex, setActiveDayIndex] = useState<number>(3); // default Thursday (THU 14/05)
@@ -62,7 +75,7 @@ export const LmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
               loadedEvents.push({
                 id: `${subj.id}-${sch.day}-${idx}`,
                 title: subj.name,
-                subtitle: subj.room || "",
+                subtitle: sch.room || subj.room || "",
                 timeStart: sch.startTime,
                 timeEnd: sch.endTime,
                 dayIndex: dayMap[sch.day] !== undefined ? dayMap[sch.day] : 0,
@@ -80,6 +93,21 @@ export const LmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       .catch((err) => {
         console.error("Error fetching subjects data:", err);
       });
+  }, []);
+
+  // Fetch current user details on mount
+  useEffect(() => {
+    fetch(`/data/user.json?t=${Date.now()}`, { cache: "no-store" })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch user.json");
+        return res.json();
+      })
+      .then((data) => {
+        if (data.user) {
+          setCurrentUser(data.user);
+        }
+      })
+      .catch((err) => console.error("Error fetching user data in LMS Context:", err));
   }, []);
 
   // Sync with real date and time once mounted on the client to avoid SSR hydration mismatch
@@ -131,14 +159,48 @@ export const LmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const addSubject = (subjectData: Omit<Subject, "id" | "createdAt" | "updatedAt" | "deletedAt">) => {
     const now = new Date().toISOString();
+    const newId = typeof window !== "undefined" && window.crypto && window.crypto.randomUUID
+      ? window.crypto.randomUUID()
+      : Math.random().toString(36).substring(2, 9);
+
     const newSubject: Subject = {
       ...subjectData,
-      id: Math.random().toString(36).substring(2, 9),
+      id: newId,
       createdAt: now,
       updatedAt: now,
       deletedAt: null,
     };
+
     setSubjects((prev) => [...prev, newSubject]);
+
+    // Derive calendar events from new schedules
+    if (newSubject.schedules) {
+      const dayMap: { [key: string]: number } = {
+        "Monday": 0,
+        "Tuesday": 1,
+        "Wednesday": 2,
+        "Thursday": 3,
+        "Friday": 4,
+        "Saturday": 5,
+        "Sunday": 6
+      };
+
+      const newEvents: LmsEvent[] = newSubject.schedules.map((sch, idx) => ({
+        id: `${newSubject.id}-${sch.day}-${idx}`,
+        title: newSubject.name,
+        subtitle: newSubject.room || "",
+        timeStart: sch.startTime,
+        timeEnd: sch.endTime,
+        dayIndex: dayMap[sch.day] !== undefined ? dayMap[sch.day] : 0,
+        color: newSubject.color || "cream",
+        subjectId: newSubject.id,
+        createdAt: now,
+        updatedAt: now,
+        deletedAt: null
+      }));
+
+      setEvents((prev) => [...prev, ...newEvents]);
+    }
   };
 
   const deleteSubject = (id: string) => {
@@ -149,6 +211,13 @@ export const LmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     );
     setEvents((prev) =>
       prev.map((e) => (e.subjectId === id ? { ...e, deletedAt: now } : e))
+    );
+  };
+
+  const updateSubject = (updatedSubject: Subject) => {
+    const now = new Date().toISOString();
+    setSubjects((prev) =>
+      prev.map((s) => (s.id === updatedSubject.id ? { ...updatedSubject, updatedAt: now } : s))
     );
   };
 
@@ -166,6 +235,8 @@ export const LmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     <LmsContext.Provider
       value={{
         subjects: activeSubjects,
+        currentUser,
+        setCurrentUser,
         events: activeEvents,
         selectedView,
         activeDayIndex,
@@ -184,6 +255,7 @@ export const LmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         deleteEvent,
         addSubject,
         deleteSubject,
+        updateSubject,
       }}
     >
       {children}

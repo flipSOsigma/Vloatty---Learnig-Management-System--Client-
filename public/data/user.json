@@ -1,6 +1,6 @@
 {
   "user": {
-    "id": "u_turing_yeager_2026",
+    "id": "c9c15c47-469a-412f-8431-21568eaf35d4",
     "name": "Turing Yeager",
     "email": "turing.y@vloatty.edu",
     "premiumStatus": "professional",
@@ -8,7 +8,7 @@
     "avatar": ""
   },
   "jwt": {
-    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVfdHVyaW5nX3llYWdlcl8yMDI2IiwibmFtZSI6IlR1cmluZyBZZWFnZXIiLCJlbWFpbCI6InR1cmluZy55QHZsb2F0dHkuZWR1IiwicHJlbWl1bVN0YXR1cyI6InByb2Zlc3Npb25hbCIsImluc3RpdHV0aW9uIjoiIiwiaWF0IjoxNzgzOTAwMDAwLCJleHAiOjE3ODQwMDAwMDB9.mockSignatureHere123456789012345678901234567890",
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM5YzE1YzQ3LTQ2OWEtNDEyZi04NDMxLTIxNTY4ZWFmMzVkNCIsIm5hbWUiOiJUdXJpbmcgWWVhZ2VyIiwiZW1haWwiOiJ0dXJpbmcueUB2bG9hdHR5LmVkdSIsInByZW1pdW1TdGF0dXMiOiJwcm9mZXNzaW9uYWwiLCJpbnN0aXR1dGlvbiI6IiIsImlhdCI6MTc4MzkwMDAwMCwiZXhwIjoxNzg0MDAwMDAwfQ.mockSignatureHere123456789012345678901234567890",
     "tokenType": "Bearer",
     "expiresIn": 86400
   }

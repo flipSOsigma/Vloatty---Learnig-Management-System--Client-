@@ -26,12 +26,14 @@ export interface SubjectSchedule {
   day: string;
   startTime: string;
   endTime: string;
+  room?: string;
 }
 
 
 export interface SubjectLecturer {
   userId: string;
   name: string;
+  email?: string;
 }
 
 export interface Subject {
@@ -39,7 +41,7 @@ export interface Subject {
   name: string;
   lecturers: SubjectLecturer[];
   room?: string;
-  color?: "cream" | "yellow" | "blue" | "image-text";
+  color?: string;
   description?: string;
   modules: Module[];
   schedules?: SubjectSchedule[];
