@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../../components/views/Header";
 import Link from "next/link";
+import { useLms } from "../../../context/LmsContext";
 import {
   User,
   Mail,
@@ -32,6 +33,7 @@ interface JwtReplica {
 }
 
 export default function ProfilePage() {
+  const { currentUser, setCurrentUser } = useLms();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [jwt, setJwt] = useState<JwtReplica | null>(null);
   const [activeTab, setActiveTab] = useState<"info" | "jwt" | "security">("info");
@@ -45,47 +47,78 @@ export default function ProfilePage() {
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Fetch mock data on mount
+  // Sync profile form fields with LmsContext user state
   useEffect(() => {
-    fetch("/data/user.json")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.user) {
-          setProfile(data.user);
-          setName(data.user.name);
-          setEmail(data.user.email);
-          setInstitution(data.user.institution);
-          setPremiumStatus(data.user.premiumStatus);
-        }
-        if (data.jwt) {
-          setJwt(data.jwt);
-        }
-      })
-      .catch((err) => console.error("Error fetching user config:", err));
+    if (currentUser) {
+      setProfile(currentUser);
+      setName(currentUser.name);
+      setEmail(currentUser.email);
+      setInstitution(currentUser.institution || "");
+      setPremiumStatus(currentUser.premiumStatus);
+    }
+  }, [currentUser]);
+
+  // Load JWT token from localStorage or fallback to mock user.json
+  useEffect(() => {
+    const activeToken = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    if (activeToken) {
+      setJwt({
+        accessToken: activeToken,
+        tokenType: "Bearer",
+        expiresIn: 86400
+      });
+    } else {
+      fetch("/data/user.json")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.jwt) {
+            setJwt(data.jwt);
+          }
+        })
+        .catch((err) => console.error("Error fetching mock user jwt:", err));
+    }
   }, []);
 
-  const handleSaveProfile = (e: React.FormEvent) => {
+  const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!profile) return;
     
     setIsSaving(true);
-    // Simulate API update
-    setTimeout(() => {
-      setProfile((prev) =>
-        prev
-          ? {
-              ...prev,
-              name,
-              email,
-              institution,
-              premiumStatus,
-            }
-          : null
-      );
-      setIsSaving(false);
+    try {
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+      
+      const response = await fetch(`${API_BASE_URL}/users/${profile.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { "Authorization": `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          institution,
+          premiumStatus,
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save profile on server");
+      }
+
+      const updatedUser = await response.json();
+      setProfile(updatedUser);
+      if (setCurrentUser) {
+        setCurrentUser(updatedUser);
+      }
+      
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
-    }, 800);
+    } catch (err) {
+      console.error("Error saving profile details:", err);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleCopyToken = () => {

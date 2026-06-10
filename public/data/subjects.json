@@ -5,7 +5,8 @@
     "lecturers": [
       {
         "userId": "u_olivia_123",
-        "name": "Dr. Olivia"
+        "name": "Dr. Olivia",
+        "email": "olivia@vloatty.edu"
       }
     ],
     "room": "West camp, Room 312",
@@ -105,11 +106,13 @@
     "lecturers": [
       {
         "userId": "u_feynman_123",
-        "name": "Prof. Richard Feynman"
+        "name": "Prof. Richard Feynman",
+        "email": "feynman@vloatty.edu"
       },
       {
         "userId": "u_olivia_123",
-        "name": "Dr. Olivia"
+        "name": "Dr. Olivia",
+        "email": "olivia@vloatty.edu"
       }
     ],
     "room": "East camp, Room 200",
@@ -176,7 +179,8 @@
     "lecturers": [
       {
         "userId": "u_turing_123",
-        "name": "Dr. Alan Turing"
+        "name": "Dr. Alan Turing",
+        "email": "turing@vloatty.edu"
       }
     ],
     "room": "West camp, Lab 402",
@@ -249,11 +253,13 @@
     "lecturers": [
       {
         "userId": "u_curie_123",
-        "name": "Dr. Marie Curie"
+        "name": "Dr. Marie Curie",
+        "email": "curie@vloatty.edu"
       },
       {
         "userId": "u_turing_123",
-        "name": "Dr. Alan Turing"
+        "name": "Dr. Alan Turing",
+        "email": "turing@vloatty.edu"
       }
     ],
     "room": "West camp, Lab 304",
@@ -309,7 +315,8 @@
     "lecturers": [
       {
         "userId": "u_shakespeare_123",
-        "name": "Prof. William Shakespeare"
+        "name": "Prof. William Shakespeare",
+        "email": "shakespeare@vloatty.edu"
       }
     ],
     "room": "West camp, Room 102",
@@ -359,7 +366,8 @@
     "lecturers": [
       {
         "userId": "u_pasteur_123",
-        "name": "Dr. Louis Pasteur"
+        "name": "Dr. Louis Pasteur",
+        "email": "pasteur@vloatty.edu"
       }
     ],
     "room": "West camp, Room 305",
@@ -409,7 +417,8 @@
     "lecturers": [
       {
         "userId": "u_herodotus_123",
-        "name": "Prof. Herodotus"
+        "name": "Prof. Herodotus",
+        "email": "herodotus@vloatty.edu"
       }
     ],
     "room": "Online Classroom",
@@ -459,11 +468,13 @@
     "lecturers": [
       {
         "userId": "u_galileo_123",
-        "name": "Prof. Galileo Galilei"
+        "name": "Prof. Galileo Galilei",
+        "email": "galileo@vloatty.edu"
       },
       {
         "userId": "u_feynman_123",
-        "name": "Prof. Richard Feynman"
+        "name": "Prof. Richard Feynman",
+        "email": "feynman@vloatty.edu"
       }
     ],
     "room": "West camp, Room 312",

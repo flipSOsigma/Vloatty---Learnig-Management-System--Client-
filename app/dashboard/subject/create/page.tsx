@@ -15,6 +15,8 @@ import {
   Sparkles,
   Check,
 } from "lucide-react";
+import facultyMockRaw from "../../../../public/data/users.json";
+const facultyMock = facultyMockRaw as Record<string, string>;
 
 interface FormLecturer {
   email: string;
@@ -33,16 +35,7 @@ interface FormModule {
   desc: string;
 }
 
-const facultyMock: { [email: string]: string } = {
-  "olivia@vloatty.edu": "Dr. Olivia",
-  "feynman@vloatty.edu": "Prof. Richard Feynman",
-  "curie@vloatty.edu": "Dr. Marie Curie",
-  "pasteur@vloatty.edu": "Dr. Louis Pasteur",
-  "shakespeare@vloatty.edu": "Prof. William Shakespeare",
-  "herodotus@vloatty.edu": "Prof. Herodotus",
-  "galileo@vloatty.edu": "Prof. Galileo Galilei",
-  "turing@vloatty.edu": "Dr. Alan Turing",
-};
+
 
 export default function CreateSubjectPage() {
   const { addSubject, currentUser } = useLms();

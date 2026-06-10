@@ -13,7 +13,7 @@ export default function DashboardLayout({
 
       {/* Shared Main Content Panel container */}
       <main className="flex-1 flex flex-col p-4 pl-0 h-full min-w-0 overflow-hidden">
-        <div className="flex-1 flex flex-col bg-[#FAF7F2] rounded-3xl  px-6 pb-6 gap-6 h-full overflow-hidden border border-[#EFECE6]/20">
+        <div className="flex-1 flex flex-col bg-[#FAF7F2] rounded-3xl  px-6 gap-6 h-full overflow-hidden border border-[#EFECE6]/20">
           {children}
         </div>
       </main>

@@ -33,6 +33,8 @@ interface LmsContextType extends LmsState {
 
 const LmsContext = createContext<LmsContextType | undefined>(undefined);
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+
 export const LmsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
@@ -45,9 +47,9 @@ export const LmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [selectedEvent, setSelectedEvent] = useState<LmsEvent | null>(null);
 
-  // Fetch subjects from JSON static file on mount
+  // Fetch subjects from the backend API on mount
   useEffect(() => {
-    fetch(`/data/subjects.json?t=${Date.now()}`, { cache: "no-store" })
+    fetch(`${API_BASE_URL}/subjects`, { cache: "no-store" })
       .then((res) => {
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -95,19 +97,54 @@ export const LmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       });
   }, []);
 
-  // Fetch current user details on mount
+  // Fetch current user details on mount from the backend API
   useEffect(() => {
-    fetch(`/data/user.json?t=${Date.now()}`, { cache: "no-store" })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch user.json");
-        return res.json();
+    // Check if token is in localStorage, if not load default mock JWT from user.json
+    let currentToken = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    
+    const fetchUser = (tokenToUse: string | null) => {
+      fetch(`${API_BASE_URL}/users/c9c15c47-469a-412f-8431-21568eaf35d4`, {
+        cache: "no-store",
+        headers: tokenToUse ? { "Authorization": `Bearer ${tokenToUse}` } : {}
       })
-      .then((data) => {
-        if (data.user) {
-          setCurrentUser(data.user);
-        }
-      })
-      .catch((err) => console.error("Error fetching user data in LMS Context:", err));
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch user profile from server");
+          return res.json();
+        })
+        .then((data) => {
+          if (data) {
+            setCurrentUser(data);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching user data in LMS Context, falling back to local mock data:", err);
+          // Graceful fallback to static JSON if server is down or user is not found
+          fetch(`/data/user.json?t=${Date.now()}`, { cache: "no-store" })
+            .then((res) => res.json())
+            .then((localData) => {
+              if (localData.user) {
+                setCurrentUser(localData.user);
+              }
+            })
+            .catch((localErr) => console.error("Error fetching fallback user data:", localErr));
+        });
+    };
+
+    if (currentToken) {
+      fetchUser(currentToken);
+    } else {
+      fetch(`/data/user.json?t=${Date.now()}`, { cache: "no-store" })
+        .then((res) => res.json())
+        .then((localData) => {
+          if (localData.jwt?.accessToken) {
+            localStorage.setItem("token", localData.jwt.accessToken);
+            fetchUser(localData.jwt.accessToken);
+          } else {
+            fetchUser(null);
+          }
+        })
+        .catch(() => fetchUser(null));
+    }
   }, []);
 
   // Sync with real date and time once mounted on the client to avoid SSR hydration mismatch
@@ -157,68 +194,138 @@ export const LmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   };
 
-  const addSubject = (subjectData: Omit<Subject, "id" | "createdAt" | "updatedAt" | "deletedAt">) => {
-    const now = new Date().toISOString();
-    const newId = typeof window !== "undefined" && window.crypto && window.crypto.randomUUID
-      ? window.crypto.randomUUID()
-      : Math.random().toString(36).substring(2, 9);
+  const addSubject = async (subjectData: Omit<Subject, "id" | "createdAt" | "updatedAt" | "deletedAt">) => {
+    try {
+      const currentToken = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      const response = await fetch(`${API_BASE_URL}/subjects`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(currentToken ? { "Authorization": `Bearer ${currentToken}` } : {})
+        },
+        body: JSON.stringify(subjectData),
+      });
 
-    const newSubject: Subject = {
-      ...subjectData,
-      id: newId,
-      createdAt: now,
-      updatedAt: now,
-      deletedAt: null,
-    };
+      if (!response.ok) {
+        throw new Error("Failed to add subject on the server");
+      }
 
-    setSubjects((prev) => [...prev, newSubject]);
+      const newSubject: Subject = await response.json();
+      setSubjects((prev) => [...prev, newSubject]);
 
-    // Derive calendar events from new schedules
-    if (newSubject.schedules) {
-      const dayMap: { [key: string]: number } = {
-        "Monday": 0,
-        "Tuesday": 1,
-        "Wednesday": 2,
-        "Thursday": 3,
-        "Friday": 4,
-        "Saturday": 5,
-        "Sunday": 6
-      };
+      // Derive calendar events from new schedules
+      if (newSubject.schedules) {
+        const dayMap: { [key: string]: number } = {
+          "Monday": 0,
+          "Tuesday": 1,
+          "Wednesday": 2,
+          "Thursday": 3,
+          "Friday": 4,
+          "Saturday": 5,
+          "Sunday": 6
+        };
 
-      const newEvents: LmsEvent[] = newSubject.schedules.map((sch, idx) => ({
-        id: `${newSubject.id}-${sch.day}-${idx}`,
-        title: newSubject.name,
-        subtitle: newSubject.room || "",
-        timeStart: sch.startTime,
-        timeEnd: sch.endTime,
-        dayIndex: dayMap[sch.day] !== undefined ? dayMap[sch.day] : 0,
-        color: newSubject.color || "cream",
-        subjectId: newSubject.id,
-        createdAt: now,
-        updatedAt: now,
-        deletedAt: null
-      }));
+        const newEvents: LmsEvent[] = newSubject.schedules.map((sch, idx) => ({
+          id: `${newSubject.id}-${sch.day}-${idx}`,
+          title: newSubject.name,
+          subtitle: newSubject.room || "",
+          timeStart: sch.startTime,
+          timeEnd: sch.endTime,
+          dayIndex: dayMap[sch.day] !== undefined ? dayMap[sch.day] : 0,
+          color: newSubject.color || "cream",
+          subjectId: newSubject.id,
+          createdAt: newSubject.createdAt,
+          updatedAt: newSubject.updatedAt,
+          deletedAt: null
+        }));
 
-      setEvents((prev) => [...prev, ...newEvents]);
+        setEvents((prev) => [...prev, ...newEvents]);
+      }
+    } catch (err) {
+      console.error("Error adding subject to server:", err);
     }
   };
 
-  const deleteSubject = (id: string) => {
-    // Soft deletion: update deletedAt instead of removing
-    const now = new Date().toISOString();
-    setSubjects((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, deletedAt: now } : s))
-    );
-    setEvents((prev) =>
-      prev.map((e) => (e.subjectId === id ? { ...e, deletedAt: now } : e))
-    );
+  const deleteSubject = async (id: string) => {
+    try {
+      const currentToken = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      const response = await fetch(`${API_BASE_URL}/subjects/${id}`, {
+        method: "DELETE",
+        headers: currentToken ? { "Authorization": `Bearer ${currentToken}` } : {}
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete subject on the server");
+      }
+
+      const now = new Date().toISOString();
+      setSubjects((prev) =>
+        prev.map((s) => (s.id === id ? { ...s, deletedAt: now } : s))
+      );
+      setEvents((prev) =>
+        prev.map((e) => (e.subjectId === id ? { ...e, deletedAt: now } : e))
+      );
+    } catch (err) {
+      console.error("Error deleting subject from server:", err);
+    }
   };
 
-  const updateSubject = (updatedSubject: Subject) => {
-    const now = new Date().toISOString();
-    setSubjects((prev) =>
-      prev.map((s) => (s.id === updatedSubject.id ? { ...updatedSubject, updatedAt: now } : s))
-    );
+  const updateSubject = async (updatedSubject: Subject) => {
+    try {
+      const currentToken = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      const response = await fetch(`${API_BASE_URL}/subjects/${updatedSubject.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          ...(currentToken ? { "Authorization": `Bearer ${currentToken}` } : {})
+        },
+        body: JSON.stringify(updatedSubject),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update subject on the server");
+      }
+
+      const savedSubject: Subject = await response.json();
+      setSubjects((prev) =>
+        prev.map((s) => (s.id === savedSubject.id ? savedSubject : s))
+      );
+
+      // Re-derive calendar events for this subject
+      setEvents((prev) => {
+        const remainingEvents = prev.filter((e) => e.subjectId !== savedSubject.id);
+        if (savedSubject.schedules) {
+          const dayMap: { [key: string]: number } = {
+            "Monday": 0,
+            "Tuesday": 1,
+            "Wednesday": 2,
+            "Thursday": 3,
+            "Friday": 4,
+            "Saturday": 5,
+            "Sunday": 6
+          };
+
+          const newEvents = savedSubject.schedules.map((sch, idx) => ({
+            id: `${savedSubject.id}-${sch.day}-${idx}`,
+            title: savedSubject.name,
+            subtitle: sch.room || savedSubject.room || "",
+            timeStart: sch.startTime,
+            timeEnd: sch.endTime,
+            dayIndex: dayMap[sch.day] !== undefined ? dayMap[sch.day] : 0,
+            color: savedSubject.color || "cream",
+            subjectId: savedSubject.id,
+            createdAt: savedSubject.createdAt,
+            updatedAt: savedSubject.updatedAt,
+            deletedAt: null
+          }));
+
+          return [...remainingEvents, ...newEvents];
+        }
+        return remainingEvents;
+      });
+    } catch (err) {
+      console.error("Error updating subject on server:", err);
+    }
   };
 
   // Expose active (non-soft-deleted) items only
